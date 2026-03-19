@@ -1,13 +1,22 @@
 import React from 'react';
+import Joi from 'joi';
+import { validateProps } from '../utils/validation';
  
+const registerInputPropsSchema = Joi.object({
+  register: Joi.func().required(),
+})
+
 class RegisterInput extends React.Component {
   constructor(props) {
     super(props)
+
+    const validatedProps = validateProps(registerInputPropsSchema, props, 'RegisterInput');
  
     this.state = {
       name: '',
       email: '',
       password: '',
+      validatedProps,
     }
  
     this.onNameChange = this.onNameChange.bind(this);
