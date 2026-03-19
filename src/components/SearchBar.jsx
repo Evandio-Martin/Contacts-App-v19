@@ -1,6 +1,7 @@
 import React from 'react';
 import Joi from 'joi';
 import { validateProps } from '../utils/validation';
+import { LocaleConsumer } from '../contexts/LocaleContext';
 
 const searchBarPropsSchema = Joi.object({
   keyword: Joi.string().required(),
@@ -12,13 +13,21 @@ function SearchBar(props) {
     const { keyword, keywordChange } =  validatedProps;
 
     return (
-        <input
-            className="search-bar"
-            type="text"
-            placeholder="Cari berdasarkan nama"
-            value={keyword}
-            onChange={(event) => keywordChange(event.target.value)}
-        />
+        <LocaleConsumer>
+            {
+                ({ locale }) => {
+                    return (
+                        <input
+                            className="search-bar"
+                            type="text"
+                            placeholder={locale === 'id' ? 'Cari berdasarkan nama' : 'Search by name'}
+                            value={keyword}
+                            onChange={(event) => keywordChange(event.target.value)}
+                        />
+                    )
+                }
+            }
+        </LocaleConsumer>
     );
 }
 
